@@ -63,6 +63,12 @@ const inList = (d) => entry(d).in ?? d.section === 'list';
 const qtyOf = (d) => entry(d).qty ?? d.qty ?? 1;
 const isChecked = (d) => Boolean(entry(d).checked);
 const listDeals = () => app.report.deals.filter(inList);
+const openDeals = () => listDeals().filter((d) => !isChecked(d));
+const openCustom = () => app.list.custom.filter((c) => !c.checked);
+const money = (deals) => ({
+  total: deals.reduce((sum, d) => sum + d.price * qtyOf(d), 0),
+  saved: deals.reduce((sum, d) => sum + saving(d) * qtyOf(d), 0),
+});
 
 function patchEntry(id, patch) {
   app.list.entries[id] = { ...app.list.entries[id], ...patch };
@@ -169,9 +175,8 @@ function renderChrome() {
 }
 
 function renderHero() {
-  const deals = listDeals();
-  const total = deals.reduce((sum, d) => sum + d.price * qtyOf(d), 0);
-  const saved = deals.reduce((sum, d) => sum + saving(d) * qtyOf(d), 0);
+  const deals = openDeals();
+  const { total, saved } = money(deals);
   const stores = new Set(deals.map(storeKey));
   const dates = app.report.deals.flatMap((d) => [d.validFrom, d.validTo]).filter(Boolean).sort();
   const range = dates.length ? `${shortFmt.format(parseDay(dates[0]))} – ${shortFmt.format(parseDay(dates.at(-1)))}` : '';
@@ -190,7 +195,7 @@ function renderHero() {
       </div>
       <dl class="hero-stats">
         <div><dt>List total</dt><dd>${kr(Math.round(total))} kr</dd></div>
-        <div><dt>Items</dt><dd>${deals.length + app.list.custom.length}</dd></div>
+        <div><dt>Items</dt><dd>${deals.length + openCustom().length}</dd></div>
         <div><dt>Stores</dt><dd>${stores.size}</dd></div>
       </dl>
     </div>`;
@@ -306,15 +311,14 @@ function listRow(item, custom) {
 function renderList() {
   const deals = listDeals();
   const groups = [...new Set(deals.map(storeKey))];
-  const total = deals.reduce((sum, d) => sum + d.price * qtyOf(d), 0);
-  const saved = deals.reduce((sum, d) => sum + saving(d) * qtyOf(d), 0);
+  const { total, saved } = money(openDeals());
   const left = deals.filter((d) => !isChecked(d)).length + app.list.custom.filter((c) => !c.checked).length;
   const count = deals.length + app.list.custom.length;
 
   const body = groups
     .map((g) => {
       const inGroup = deals.filter((d) => storeKey(d) === g);
-      const sum = inGroup.reduce((s, d) => s + d.price * qtyOf(d), 0);
+      const sum = inGroup.filter((d) => !isChecked(d)).reduce((s, d) => s + d.price * qtyOf(d), 0);
       return `<h3 class="store-head">${storeDot(inGroup[0].store)}${esc(g)}<span>${kr(Math.round(sum))} kr</span></h3><ul class="rows">${inGroup.map((d) => listRow(d, false)).join('')}</ul>`;
     })
     .join('');
