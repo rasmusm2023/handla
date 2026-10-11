@@ -159,8 +159,8 @@ function renderChrome() {
 
   const notes = [];
   if (app.problem) notes.push(`<div class="banner warn">⚠️ ${esc(app.problem)}</div>`);
-  if (app.run?.status === 'error') notes.push(`<div class="banner warn">⚠️ Grok's last run (${dayFmt.format(new Date(app.run.finishedAt))}) failed: ${esc(app.run.message)} <button class="link" data-act="open-import">Try again</button></div>`);
-  if (app.sample) notes.push(`<div class="banner">Showing <b>sample data</b> – made-up prices so you can see the layout. Grok's first Monday run replaces it. <button class="link" data-act="open-import">Run Grok now</button></div>`);
+  if (app.run?.status === 'error') notes.push(`<div class="banner warn">⚠️ Grok's last run (${dayFmt.format(new Date(app.run.finishedAt))}) failed: ${esc(app.run.message)} <button class="link" data-act="open-import">Import a report</button></div>`);
+  if (app.sample) notes.push(`<div class="banner">Showing <b>sample data</b> – made-up prices so you can see the layout. <button class="link" data-act="open-import">Import a report</button> to replace it.</div>`);
   for (const s of app.report.missingStores || []) notes.push(`<div class="banner quiet">Couldn't find offers: ${esc(s)}</div>`);
   $('#banner').innerHTML = notes.join('');
 
@@ -423,25 +423,6 @@ const actions = {
     $('#importDialog').showModal();
   },
   'close-import': () => $('#importDialog').close(),
-  async hunt(_, el) {
-    const msg = $('#importMsg');
-    const key = $('#importKey').value.trim();
-    el.disabled = true;
-    msg.textContent = 'Grok is checking the stores… this can take a few minutes. Keep this open.';
-    try {
-      const res = await fetch('/api/hunt', { headers: { Authorization: `Bearer ${key}` } });
-      const data = await res.json();
-      if (!data.ok) throw new Error(data.error);
-      localStorage.setItem('dh_key', key);
-      $('#importDialog').close();
-      toast(`Grok found ${data.deals} deals for ${data.week}`);
-      await load(data.week);
-    } catch (err) {
-      msg.textContent = err.message || 'Run failed.';
-    } finally {
-      el.disabled = false;
-    }
-  },
   async paste() {
     try {
       $('#importText').value = await navigator.clipboard.readText();
