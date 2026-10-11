@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Fynd – Grocery Deal Hunter</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#F3EFE6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F1411" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Fynd">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Instrument+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body data-tab="deals">
+  <header class="top">
+    <a class="brand" href="/" aria-label="Fynd home">
+      <span class="brand-mark">%</span>
+      <span class="brand-name">Fynd</span>
+    </a>
+    <div class="top-actions">
+      <select id="weekSelect" class="week-select" aria-label="Week"></select>
+      <button class="btn ghost" data-act="open-import">Update</button>
+    </div>
+  </header>
+
+  <div id="banner"></div>
+
+  <section class="hero" id="hero" aria-live="polite"></section>
+
+  <nav class="tabs" aria-label="Sections">
+    <button data-tab="deals"><span class="tab-ico">🏷️</span>Deals</button>
+    <button data-tab="dishes"><span class="tab-ico">🍳</span>Dishes</button>
+    <button data-tab="list"><span class="tab-ico">🛒</span>My list<span class="badge" id="listBadge"></span></button>
+  </nav>
+
+  <main class="layout">
+    <div class="col-main">
+      <section id="view-deals" class="view"></section>
+      <section id="view-dishes" class="view"></section>
+    </div>
+    <aside id="view-list" class="view list-panel"></aside>
+  </main>
+
+  <dialog id="importDialog" class="sheet">
+    <form method="dialog" id="importForm">
+      <h2>Update deals</h2>
+      <p class="muted">Grok checks the stores by itself every Monday around midday. Run it now if you don't want to wait – it takes a few minutes.</p>
+      <label class="field">
+        <span>Key</span>
+        <input id="importKey" type="password" autocomplete="off" placeholder="The INGEST_TOKEN you set in Vercel">
+      </label>
+      <details class="manual">
+        <summary>Paste a report manually instead</summary>
+        <textarea id="importText" rows="6" placeholder='{ "week": "2026-W42", "deals": [ … ], "dishes": [ … ] }' spellcheck="false"></textarea>
+        <div class="sheet-actions">
+          <button type="button" class="btn ghost" data-act="paste">Paste from clipboard</button>
+          <span class="spacer"></span>
+          <button type="submit" class="btn ghost">Import pasted report</button>
+        </div>
+      </details>
+      <p id="importMsg" class="import-msg" role="status"></p>
+      <div class="sheet-actions">
+        <span class="spacer"></span>
+        <button type="button" class="btn ghost" data-act="close-import">Close</button>
+        <button type="button" class="btn primary" data-act="hunt">Run Grok now</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

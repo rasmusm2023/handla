@@ -1,0 +1,58 @@
+{
+  "week": "2026-W42",
+  "generatedAt": "2026-10-12T12:00:00+02:00",
+  "missingStores": ["Lidl Halmstad"],
+  "deals": [
+    {
+      "id": "willys-notfars",
+      "section": "list",
+      "name": "Nötfärs 12%",
+      "brand": "Garant",
+      "store": "Willys",
+      "location": "Halmstad",
+      "category": "meat",
+      "price": 59.9,
+      "regularPrice": 89.9,
+      "unit": "förp",
+      "packSize": "800 g",
+      "qty": 2,
+      "comparePrice": 74.88,
+      "compareUnit": "kr/kg",
+      "validFrom": "2026-10-12",
+      "validTo": "2026-10-18",
+      "membersOnly": true,
+      "memberProgram": "Willys Plus",
+      "multiBuy": "",
+      "staple": true,
+      "stockUp": false,
+      "note": "Freeze one pack.",
+      "sourceUrl": "https://www.willys.se/erbjudanden"
+    },
+    {
+      "id": "dollarstore-pepsi-max-burk",
+      "section": "drink",
+      "name": "Pepsi Max 20×33 cl",
+      "store": "Dollarstore",
+      "location": "Halmstad",
+      "category": "drinks",
+      "price": 59.9,
+      "regularPrice": 79.9,
+      "unit": "flak",
+      "packSize": "6,6 l",
+      "qty": 1,
+      "pricePerLitre": 9.08,
+      "validFrom": "2026-10-12",
+      "validTo": "2026-10-18",
+      "stockUp": true
+    }
+  ],
+  "dishes": [
+    {
+      "name": "Beef & broccoli bowl",
+      "emoji": "🥣",
+      "uses": ["willys-notfars"],
+      "fromHome": ["Rice", "Soy sauce", "Garlic"],
+      "why": "High protein, no pasta, uses the week's cheapest mince."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "deal-hunter",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Weekly grocery deal dashboard fed by a Grok bot",
+  "scripts": {
+    "dev": "node dev.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

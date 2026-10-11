@@ -1,0 +1,6 @@
+{
+  "crons": [{ "path": "/api/hunt", "schedule": "0 10 * * 1" }],
+  "functions": {
+    "api/hunt.js": { "maxDuration": 300 }
+  }
+}

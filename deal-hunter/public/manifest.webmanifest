@@ -1,0 +1,9 @@
+{
+  "name": "Fynd – Grocery Deal Hunter",
+  "short_name": "Fynd",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F3EFE6",
+  "theme_color": "#14402B",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
